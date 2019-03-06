@@ -3,13 +3,13 @@ package com.example.android.miwok;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NumbersActivity extends AppCompatActivity {
-    private final static String LOG_TAG = NumbersActivity.class.getSimpleName();
+    // private final static String LOG_TAG = NumbersActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class NumbersActivity extends AppCompatActivity {
         // Find the {@link ListView} object in the view hierarchy of the {@link Activity}.
         // There should be a {@link ListView} with the view ID called list, which is declared in the
         // activity_numbers.xml layout file.
-        GridView listView = (GridView) findViewById(R.id.list);
+        ListView listView = findViewById(R.id.list);
 
         // Make the {@link ListView} use the {@link ArrayAdapter} we created above, so that the
         // {@link ListView} will display list items for each word in the list of words.
