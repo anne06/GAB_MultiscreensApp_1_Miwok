@@ -1,16 +1,24 @@
 package com.example.android.miwok;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 public class WordAdapter extends ArrayAdapter<Word> {
+
+    /**
+     * member to keep the value of the activity background color
+     */
+    private int mBackgroundColor;
+    //private final static String LOG_TAG = WordAdapter.class.getSimpleName();
 
     /**
      * This is our own custom constructor (it doesn't mirror a superclass constructor).
@@ -20,12 +28,13 @@ public class WordAdapter extends ArrayAdapter<Word> {
      * @param context       The current context. Used to inflate the layout file.
      * @param words         A List of Miwok words objects to display in a list
      */
-    public WordAdapter(Activity context, List<Word> words) {
+    public WordAdapter(Activity context, List<Word> words, int backgroundColor) {
         // Here, we initialize the ArrayAdapter's internal storage for the context and the list.
         // the second argument is used when the ArrayAdapter is populating a single TextView.
         // Because this is a custom adapter for two TextViews and an ImageView, the adapter is not
         // going to use this second argument, so it can be any value. Here, we used 0.
         super(context, 0, words);
+        this.mBackgroundColor = backgroundColor;
     }
     
 
@@ -49,6 +58,11 @@ public class WordAdapter extends ArrayAdapter<Word> {
 
         // Get the {@link Word} object located at this position in the list
         Word currentWord = getItem(position);
+
+        // Set the background color
+        LinearLayout textsLayout = listItemView.findViewById(R.id.textViewsLayout);
+        int backgroundColor = ContextCompat.getColor(getContext(), mBackgroundColor);
+        textsLayout.setBackgroundColor(backgroundColor);
 
         // Find the TextView in the list_item.xml layout with the ID miwok_text_view
         TextView miwokTextView = listItemView.findViewById(R.id.miwok_text_view);
