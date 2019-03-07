@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -60,6 +61,16 @@ public class WordAdapter extends ArrayAdapter<Word> {
         // Get the default translation from the current Word object and
         // set this text on the default_text_view TextView
         defaultTextView.setText(currentWord.getDefaultTranslation());
+
+        // Handle the image
+        ImageView imageView = listItemView.findViewById(R.id.image_view);
+
+        if (currentWord.hasImage()){
+            imageView.setImageResource(currentWord.getImageResourceId());
+            imageView.setVisibility(View.VISIBLE);
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
 
         // Return the whole list item layout (containing 2 TextViews)
         // so that it can be shown in the ListView
