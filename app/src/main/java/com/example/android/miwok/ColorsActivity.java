@@ -3,6 +3,7 @@ package com.example.android.miwok;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -11,6 +12,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ColorsActivity extends AppCompatActivity {
+    private final static String LOG_TAG = ColorsActivity.class.getSimpleName();
+
+    /**
+     * Creation on a member variable to store the mediaPlayer
+     */
+    private MediaPlayer mMediaPlayer;
+
+    /**
+     * Creation of a unique object to store the methode onCompletion() definition
+     * It avoids to create a new object each time we click on a list item
+     * because the code is the same for each list item
+     */
+    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releaseMediaPlayer();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +71,46 @@ public class ColorsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Word currentWord = words.get(position);
+
+                /**
+                 *  In case the media player is not already released
+                 *  It happens when the user clics on several items in the same time,
+                 *  the next sound is played even if the previous sound is not finished
+                 *  and the onCompletionListener is not called
+                 */
+                releaseMediaPlayer();
+
                 // Handle the sound
-                MediaPlayer mediaPlayer =
+                mMediaPlayer =
                         MediaPlayer.create(ColorsActivity.this, currentWord.getSoundResourceId());
-                mediaPlayer.start();
+                mMediaPlayer.start();
+
+                /**
+                 * After playing the sound, the mediaPlayer is released,
+                 * in order to save resources
+                 */
+                mMediaPlayer.setOnCompletionListener(mCompletionListener);
             }
         });
+
+
+    }
+
+    /**
+     * Clean up the media player by releasing its resources.
+     */
+    private void releaseMediaPlayer() {
+        // If the media player is not null, then it may be currently playing a sound.
+        Log.d(LOG_TAG, "In the release Method");
+        if (mMediaPlayer != null) {
+            // Regardless of the current state of the media player, release its resources
+            // because we no longer need it.
+            mMediaPlayer.release();
+
+            // Set the media player back to null. For our code, we've decided that
+            // setting the media player to null is an easy way to tell that the media player
+            // is not configured to play an audio file at the moment.
+            mMediaPlayer = null;
+        }
     }
 }
