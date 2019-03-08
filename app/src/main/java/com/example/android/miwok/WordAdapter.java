@@ -18,6 +18,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
      * member to keep the value of the activity background color
      */
     private int mBackgroundColor;
+
     //private final static String LOG_TAG = WordAdapter.class.getSimpleName();
 
     /**
@@ -57,12 +58,14 @@ public class WordAdapter extends ArrayAdapter<Word> {
         }
 
         // Get the {@link Word} object located at this position in the list
-        Word currentWord = getItem(position);
+        final Word currentWord = getItem(position);
 
         // Set the background color
         LinearLayout textsLayout = listItemView.findViewById(R.id.textViewsLayout);
+        //Button mediaPlayerButton = listItemView.findViewById(R.id.play_button);
         int backgroundColor = ContextCompat.getColor(getContext(), mBackgroundColor);
         textsLayout.setBackgroundColor(backgroundColor);
+        //mediaPlayerButton.setBackgroundColor(backgroundColor);
 
         // Find the TextView in the list_item.xml layout with the ID miwok_text_view
         TextView miwokTextView = listItemView.findViewById(R.id.miwok_text_view);
@@ -85,6 +88,16 @@ public class WordAdapter extends ArrayAdapter<Word> {
         } else {
             imageView.setVisibility(View.GONE);
         }
+
+        // Handle the sound
+ /*       listItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaPlayer mediaPlayer = MediaPlayer.create(getContext(), currentWord.getSoundResourceId());
+                mediaPlayer.start();
+            }
+        });
+*/
 
         // Return the whole list item layout (containing 2 TextViews)
         // so that it can be shown in the ListView

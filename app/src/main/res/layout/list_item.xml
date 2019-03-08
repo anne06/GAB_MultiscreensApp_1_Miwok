@@ -3,37 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="@color/tan_background"
-    >
+    android:background="@color/tan_background">
 
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="@dimen/image_size"
-        android:layout_height="@dimen/image_size"
-        />
+        android:layout_height="@dimen/image_size" />
 
     <LinearLayout
         android:id="@+id/textViewsLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/list_item_height"
-        android:orientation="vertical"
-        >
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <TextView
-            style="@style/ListStyle"
             android:id="@+id/miwok_text_view"
-            android:layout_weight="1"
+            style="@style/ListStyle"
             android:layout_height="0dp"
+            android:layout_weight="1"
             android:gravity="bottom"
             android:textStyle="bold"
             tools:text="lutti" />
 
         <TextView
-            style="@style/ListStyle"
             android:id="@+id/default_text_view"
-            android:layout_weight="1"
+            style="@style/ListStyle"
             android:layout_height="0dp"
+            android:layout_weight="1"
             android:gravity="top"
             tools:text="one" />
     </LinearLayout>
