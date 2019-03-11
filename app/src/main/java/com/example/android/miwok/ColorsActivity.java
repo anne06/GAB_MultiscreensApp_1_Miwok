@@ -1,5 +1,7 @@
 package com.example.android.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +16,7 @@ import java.util.List;
 public class ColorsActivity extends AppCompatActivity {
     private final static String LOG_TAG = ColorsActivity.class.getSimpleName();
 
-    /**
-     * Creation on a member variable to store the mediaPlayer
-     */
+    // Creation on a member variable to store the mediaPlayer
     private MediaPlayer mMediaPlayer;
 
     /**
@@ -31,10 +31,36 @@ public class ColorsActivity extends AppCompatActivity {
         }
     };
 
+
+    // Creation of the AudioManager
+    private AudioManager mAudioManager;
+
+    // Creation of a unique listener used for all list items
+    AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+                @Override
+                public void onAudioFocusChange(int focusChange) {
+                    if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
+                            focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK){
+                        // Pause playback
+                        mMediaPlayer.pause();
+                        mMediaPlayer.seekTo(0);
+                    } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                        // Resume playback
+                        mMediaPlayer.start();
+                    } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                        releaseMediaPlayer();
+                    }
+                }
+            };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
+
+        // Create and setup the {@link AudioManager} to request audio focus
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         // Creation of the worlds list
         final List<Word> words = new ArrayList<>();
@@ -80,16 +106,25 @@ public class ColorsActivity extends AppCompatActivity {
                  */
                 releaseMediaPlayer();
 
-                // Handle the sound
-                mMediaPlayer =
-                        MediaPlayer.create(ColorsActivity.this, currentWord.getSoundResourceId());
-                mMediaPlayer.start();
+                // Request audio focus for playback
+                int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
+                        AudioManager.STREAM_MUSIC, // Use the Music Stream
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT ); // Request permanent focus
 
-                /**
-                 * After playing the sound, the mediaPlayer is released,
-                 * in order to save resources
-                 */
-                mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    //mAudioManager.registerMediaButtonEventReceiver(RemoteControlReceiver);
+
+                    // Handle the sound
+                    mMediaPlayer =
+                            MediaPlayer.create(ColorsActivity.this, currentWord.getSoundResourceId());
+                    mMediaPlayer.start();
+
+                    /**
+                     * After playing the sound, the mediaPlayer is released,
+                     * in order to save resources
+                     */
+                    mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                }
             }
         });
 
@@ -117,6 +152,9 @@ public class ColorsActivity extends AppCompatActivity {
             // setting the media player to null is an easy way to tell that the media player
             // is not configured to play an audio file at the moment.
             mMediaPlayer = null;
+
+            // Abandon audio focus when playback complete
+            mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
         }
     }
 }
