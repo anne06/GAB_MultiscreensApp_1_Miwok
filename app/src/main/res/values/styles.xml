@@ -3,30 +3,20 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryDark">@color/primary_dark_color</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <!-- Style for a category of vocabulary words -->
-    <style name="CategoryStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/list_item_height</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:padding">@dimen/activity_horizontal_padding</item>
-
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/activity_text_size</item>
-        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    <style name="CategoryStyle" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/primary_color</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+        <item name="tabTextAppearance">@style/CategoryTabTextAppearance</item>
     </style>
 
-    <!-- Style for all lists of vocabulary words -->
-    <style name="ListStyle">
-        <item name="android:layout_width">match_parent</item>
 
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">18sp</item>
-
-        <item name="android:textAppearance">?android:textAppearanceMedium</item>
-        <item name="android:paddingLeft">@dimen/activity_horizontal_padding</item>
+    <!-- Text appearance style for a category tab -->
+    <style name="CategoryTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">#A8A19E</item>
     </style>
 
 </resources>

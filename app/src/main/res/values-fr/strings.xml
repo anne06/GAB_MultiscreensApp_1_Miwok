@@ -4,5 +4,15 @@
     <string name="category_phrases">Phrases</string>
     <string name="category_colors">Couleurs</string>
     <string name="category_numbers">Nombres</string>
-    <string name="category_family">Membres de la Famille</string>
+    <string name="category_family">Famille</string>
+    <string name="phrase_where_are_you_going">Où vas-tu ?</string>
+    <string name="phrase_what_is_your_name">Comment t\'appelles-tu ?</string>
+    <string name="phrase_my_name_is">Je m\'appelle...</string>
+    <string name="phrase_how_are_you_feeling">Comment vas-tu ?</string>
+    <string name="phrase_im_feeling_good">Ca va bien.</string>
+    <string name="phrase_are_you_coming">Est-ce que tu viens ?</string>
+    <string name="phrase_yes_im_coming">Oui, je viens.</string>
+    <string name="phrase_im_coming">J\'arrive.</string>
+    <string name="phrase_lets_go">Allons-y.</string>
+    <string name="phrase_come_here">Viens ici.</string>
 </resources>
